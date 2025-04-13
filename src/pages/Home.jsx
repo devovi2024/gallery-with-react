@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import MyPicks from '../components/MyPicks';
 import { fetchItems } from '../api/api';
 import ItemCollection from '../components/ItemCollection';
-import MyPicks from '../components/MyPicks';
 import CardView from '../components/CardView';
 
 const Home = () => {
@@ -10,53 +10,91 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch favorite items on mount
   useEffect(() => {
-    const loadItems = async () => {
+    const getItems = async () => {
       try {
         const data = await fetchItems();
         setItems(data);
       } catch (err) {
-        setError(err.message);
+        setError('Oops! Could not get items.');
       } finally {
         setLoading(false);
       }
     };
-    loadItems();
+    getItems();
   }, []);
 
-  const handlePick = (item) => {
-    if (!pickedItems.find(p => p.id === item.id)) {
-      setPickedItems([...pickedItems, item]);
+  // Pick an item
+  const pickItem = (item) => {
+    if (!pickedItems.find((p) => p.id === item.id)) {
+      setPickedItems([...pickedItems, { ...item, quantity: 1 }]);
     }
   };
 
-  const renderPickedItem = (item) => <div>{item.name}</div>; 
+  // Update picked items
+  const changePickedItems = (newItems) => {
+    setPickedItems(newItems);
+  };
 
-  if (loading) return <div className="text-center py-10">Loading...</div>;
-  if (error) return <div className="text-center py-10 text-red-500">{error}</div>;
+  // Delete a picked item
+  const deletePickedItem = (id) => {
+    setPickedItems(pickedItems.filter((item) => item.id !== id));
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <p className="text-gray-600 text-lg">Loading items...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <p className="text-red-500 text-lg">{error}</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">My Shop</h1>
-      <ItemCollection
-        items={items}
-        renderCard={(item, index) => (
-          <CardView
-            key={index}
-            title={item.name}
-            description={item.description}
-            price={item.price}
-            buttonText="Pick"
-            onButtonClick={() => handlePick(item)}
-          />
-        )}
-      />
+<div className=" bg-gray-100 py-8 px-4 ">
+  <div className="max-w-7xl mx-auto">
+    <h1 className="text-3xl font-bold text-gray-900 mb-6">Favorite Items</h1>
 
-      <div className="mt-10 bg-gray-100 rounded-lg shadow-md p-4">
-        <h2 className="text-xl font-semibold mb-4">My Picks</h2>
-        <MyPicks items={pickedItems} renderItem={renderPickedItem} />
-      </div>
-    </div>
+    <div className='flex flex-col lg:flex-row justify-between gap-10'>
+  {/* Item Collection - 2/3 on large screens */}
+  <div className="bg-amber-200 w-full lg:w-2/3">
+    <ItemCollection
+      items={items}
+      renderCard={(item, index) => (
+        <CardView
+          key={index}
+          title={item.name}
+          description={item.description}
+          price={item.price}
+          buttonText="Pick"
+          onButtonClick={() => pickItem(item)}
+          className="w-full"
+        />
+      )}
+    />
+  </div>
+
+  {/* Picks Section - 1/3 on large screens */}
+  <div className="w-full lg:w-1/3">
+    <MyPicks
+      items={pickedItems}
+      changeItems={changePickedItems}
+      deleteItem={deletePickedItem}
+    />
+  </div>
+</div>
+
+  </div>
+</div>
+
   );
 };
 

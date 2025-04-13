@@ -4,7 +4,7 @@ import CardView from './CardView';
 
 const ItemCollection = ({ items, renderCard }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-2  gap-6">
       {items.map((item, index) =>
         renderCard ? renderCard(item, index) : (
           <CardView
