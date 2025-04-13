@@ -1,24 +1,29 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CardView from './CardView';
-import { itemArrayPropTypes } from '../propTypes';
 
-const ItemCollection = ({ items, onPick, disabledItems }) => {
+const ItemCollection = ({ items, renderCard }) => {
   return (
-    <div>
-      {items.map((item, index) => (
-        <CardView 
-          key={index} 
-          item={item} 
-          onPick={onPick} 
-          disabled={disabledItems.has(item.id)} 
-        />
-      ))}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {items.map((item, index) =>
+        renderCard ? renderCard(item, index) : (
+          <CardView
+            key={index}
+            title={item.name}
+            description={item.description}
+            price={item.price}
+            buttonText="Pick"
+            onButtonClick={() => alert(`Picked ${item.name}`)} // Replace with actual function
+          />
+        )
+      )}
     </div>
   );
 };
 
 ItemCollection.propTypes = {
-  items: itemArrayPropTypes,
+  items: PropTypes.array.isRequired,
+  renderCard: PropTypes.func,
 };
 
 export default ItemCollection;

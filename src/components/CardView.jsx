@@ -1,33 +1,28 @@
 import React from 'react';
-import { itemPropTypes } from '../propTypes';
+import PropTypes from 'prop-types';
 
-const cardStyle = {
-  border: '1px solid #ddd',
-  borderRadius: '8px',
-  padding: '1rem',
-  boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-  marginBottom: '1rem',
-};
-
-const CardView = ({ item, onPick, disabled }) => {
+const CardView = ({ title, description, price, buttonText, onButtonClick }) => {
   return (
-    <div style={cardStyle}>
-      <h2>{item.name}</h2>
-      <p>{item.description || "No description"}</p>
-      <p>{item.price ? `$${item.price}` : "Price not listed"}</p>
-      <button 
-        onClick={() => onPick(item)} 
-        disabled={disabled} 
-        style={{ marginTop: '0.5rem', cursor: disabled ? 'not-allowed' : 'pointer' }}
+    <div className="border rounded-lg shadow-md p-4 w-full">
+      <h2 className="text-xl font-semibold mb-2">{title}</h2>
+      <p className="text-gray-600 mb-1">{description || 'No description'}</p>
+      <p className="font-bold mb-2">{price ? `$${price}` : 'Price not listed'}</p>
+      <button
+        onClick={onButtonClick}
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
       >
-        {disabled ? "Already Picked" : "Pick"}
+        {buttonText || 'Action'}
       </button>
     </div>
   );
 };
 
 CardView.propTypes = {
-  item: itemPropTypes,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  buttonText: PropTypes.string,
+  onButtonClick: PropTypes.func.isRequired,
 };
 
 export default CardView;

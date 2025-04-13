@@ -1,43 +1,25 @@
 import React from 'react';
-import { itemArrayPropTypes } from '../propTypes';
+import PropTypes from 'prop-types';
 
-const MyPicks = ({ picks }) => {
-  const totalPrice = picks.reduce((sum, item) => sum + (item.price || 0), 0);
+const MyPicks = ({ items, renderItem }) => {
+  if (items.length === 0) {
+    return <p className="text-gray-500">No items selected.</p>;
+  }
 
   return (
-    <div style={{ marginTop: '2rem', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
-      <h3>Picked Items</h3>
-      {picks.length === 0 ? (
-        <p>No picks yet!</p>
-      ) : (
-        <>
-
-          {picks.map((item, index) => (
-            <div key={index} style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center' }}>
-              <img 
-                src={item.image} 
-                alt={item.name} 
-                style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px', marginRight: '1rem' }} 
-              />
-              <div>
-                <h4>{item.name}</h4>
-                <p>{item.price ? `$${item.price}` : "Price not listed"}</p>
-              </div>
-            </div>
-          ))}
-
-
-          <div style={{ marginTop: '1rem', fontWeight: 'bold' }}>
-            <h4>Total Price: ${totalPrice.toFixed(2)}</h4> 
-          </div>
-        </>
-      )}
-    </div>
+    <ul className="list-disc pl-5">
+      {items.map((item) => (
+        <li key={item.id}>
+          {renderItem ? renderItem(item) : item.name}
+        </li>
+      ))}
+    </ul>
   );
 };
 
 MyPicks.propTypes = {
-  picks: itemArrayPropTypes,  
+  items: PropTypes.array.isRequired,
+  renderItem: PropTypes.func,
 };
 
 export default MyPicks;
