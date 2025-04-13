@@ -13,7 +13,7 @@ const ItemCollection = ({ items, renderCard }) => {
             description={item.description}
             price={item.price}
             buttonText="Pick"
-            onButtonClick={() => alert(`Picked ${item.name}`)} // Replace with actual function
+            onButtonClick={() => alert(`Picked ${item.name}`)} 
           />
         )
       )}
