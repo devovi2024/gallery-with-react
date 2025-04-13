@@ -1,0 +1,20 @@
+useEffect hook import librery
+
+
+Code Workflow:
+useEffect triggers when the app loads.
+
+fetchData dynamically imports the dataset.js file.
+
+Data is stored in the state using setItems(items).
+
+Component re-renders, displaying item names and prices.
+
+Key Concepts:
+useState: Manages state.
+
+useEffect: Handles side effects like data fetching.
+
+async/await: Used for asynchronous operations.
+
+Dynamic Import: Loads files on  ( dataset.js).
