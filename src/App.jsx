@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ItemCollection from "./components/ItemCollection";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -6,9 +7,10 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { items } = await import('../public/dataset.js'); 
-        setItems(items); 
-        console.log(items); 
+        const response = await fetch('/dataset.json'); 
+        const data = await response.json();
+        setItems(data); 
+        console.log(data);
       } catch (error) {
         console.error("Error fetching dataset", error);
       }
@@ -20,11 +22,11 @@ function App() {
   return (
     <div>
       <h1>Gallery</h1>
-      <ul>
-        {items.map(item => (
-          <li key={item.id}>{item.name} - ${item.price}</li>
-        ))}
-      </ul>
+
+
+      <div>
+        <ItemCollection />
+      </div>
     </div>
   );
 }
