@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import '../style.css';
 import MyPicks from '../components/MyPicks';
 import { fetchItems } from '../api/api';
 import ItemCollection from '../components/ItemCollection';
 import CardView from '../components/CardView';
+import QuizModalWrapper from '../components/QuizModalWrapper';
+import BlogSlider from '../components/BlogSlider';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
+import Header from '../components/Header';
 
 const Home = () => {
   const [items, setItems] = useState([]);
@@ -10,7 +16,6 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch favorite items on mount
   useEffect(() => {
     const getItems = async () => {
       try {
@@ -25,19 +30,16 @@ const Home = () => {
     getItems();
   }, []);
 
-  // Pick an item
   const pickItem = (item) => {
     if (!pickedItems.find((p) => p.id === item.id)) {
       setPickedItems([...pickedItems, { ...item, quantity: 1 }]);
     }
   };
 
-  // Update picked items
   const changePickedItems = (newItems) => {
     setPickedItems(newItems);
   };
 
-  // Delete a picked item
   const deletePickedItem = (id) => {
     setPickedItems(pickedItems.filter((item) => item.id !== id));
   };
@@ -59,42 +61,65 @@ const Home = () => {
   }
 
   return (
-<div className=" bg-gray-100 py-8 px-4 ">
-  <div className="max-w-7xl mx-auto">
-    <h1 className="text-3xl font-bold text-gray-900 mb-6">Favorite Items</h1>
+    <div className="bg-gradient-to-br from-indigo-50 via-purple-100 to-indigo-200">
+      {/* Navbar */}
+      <Navbar />
 
-    <div className='flex flex-col lg:flex-row justify-between gap-10'>
-  {/* Item Collection - 2/3 on large screens */}
-  <div className="bg-amber-200 w-full lg:w-2/3">
-    <ItemCollection
-      items={items}
-      renderCard={(item, index) => (
-        <CardView
-          key={index}
-          title={item.name}
-          description={item.description}
-          price={item.price}
-          buttonText="Pick"
-          onButtonClick={() => pickItem(item)}
-          className="w-full"
-        />
-      )}
-    />
-  </div>
+      {/* Header */}
+      <Header />
 
-  {/* Picks Section - 1/3 on large screens */}
-  <div className="w-full lg:w-1/3">
-    <MyPicks
-      items={pickedItems}
-      changeItems={changePickedItems}
-      deleteItem={deletePickedItem}
-    />
-  </div>
-</div>
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center sm:text-left">
+          Favorite Items
+        </h1>
 
-  </div>
-</div>
+        <div className="flex flex-col lg:flex-row gap-10">
+          {/* Items Section */}
+          <div className="w-full lg:w-2/3">
+            <ItemCollection
+              items={items}
+              renderCard={(item, index) => (
+                <CardView
+                  key={index}
+                  title={item.name}
+                  image={item.image}
+                  description={item.description}
+                  price={item.price}
+                  buttonText="Pick"
+                  onButtonClick={() => pickItem(item)}
+                  className="w-full"
+                />
+              )}
+            />
+          </div>
 
+          {/* My Picks Section */}
+          <div className="w-full lg:w-1/3">
+            <MyPicks
+              items={pickedItems}
+              changeItems={changePickedItems}
+              deleteItem={deletePickedItem}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Quiz Modal */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+        <QuizModalWrapper />
+      </div>
+
+      {/* Blog Slider */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+        <BlogSlider />
+      </div>
+
+      {/* Footer */}
+      <div className="mt-12">
+        <Footer />
+      </div>
+    </div>
   );
 };
 

@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const MyPicks = ({ items, changeItems, deleteItem }) => {
-  // If no items are picked, show a message
-  if (!items || items.length === 0) {
-    return <p className="text-gray-500 text-center py-4">No items picked yet!</p>;
-  }
+  const [couponCode, setCouponCode] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const [showCouponSection, setShowCouponSection] = useState(false); 
+
+  useEffect(() => {
+    const storedCouponCode = localStorage.getItem('quizCoupon');
+
+    if (storedCouponCode) {
+      console.log("Stored Coupon Code:", storedCouponCode); 
+    }
+  }, []);
 
   // Add one more item
   const addOne = (id) => {
@@ -40,8 +47,43 @@ const MyPicks = ({ items, changeItems, deleteItem }) => {
     0
   );
 
+  // Apply coupon logic
+  const applyCoupon = () => {
+    if (!couponCode.trim()) {
+      alert('Please enter a coupon code');
+      return;
+    }
+
+    const storedCouponCode = localStorage.getItem('quizCoupon');
+
+    console.log("Stored Coupon Code:", storedCouponCode); 
+    console.log("Entered Coupon Code:", couponCode);    
+
+    if (!storedCouponCode) {
+      alert('No valid coupon available');
+      setDiscount(0); 
+      return;
+    }
+
+    if (couponCode === storedCouponCode) {
+      console.log('Coupon Applied');
+      setDiscount(20); 
+    } else {
+      alert('Invalid coupon code');
+      setDiscount(0); 
+    }
+  };
+
+  // Save coupon code to localStorage
+  const saveCoupon = (code) => {
+    localStorage.setItem('quizCoupon', code);
+  };
+
+  // Calculate the total after applying the discount
+  const discountedTotal = total - (total * discount) / 100;
+
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-md max-w-2xl mx-auto">
+    <div className="p-4 bg-white border mt-6 rounded-lg shadow-md max-w-2xl mx-auto">
       <h2 className="text-xl font-semibold text-gray-800 mb-4">My Picks</h2>
       <ul className="space-y-3">
         {items.map((item) => (
@@ -82,8 +124,44 @@ const MyPicks = ({ items, changeItems, deleteItem }) => {
           </li>
         ))}
       </ul>
+
+      {/* Coupon Toggle Button */}
+      <button
+        onClick={() => setShowCouponSection((prev) => !prev)} 
+        className="mt-4 p-2 px-4 "
+      >
+        {showCouponSection ? '﹀' : '🎁'}
+      </button>
+
+      {/* Coupon Code Section */}
+      {showCouponSection && (
+        <div className="mt-4">
+          <label htmlFor="couponCode" className="text-sm font-semibold text-gray-700">Enter Coupon Code:</label>
+          <input
+            type="text"
+            id="couponCode"
+            value={couponCode}
+            onChange={(e) => setCouponCode(e.target.value)}
+            className="p-2 border rounded mt-2 w-full"
+            placeholder="Enter your coupon code"
+          />
+          <button
+            onClick={applyCoupon}
+            className="mt-2 p-2 px-4 bg-blue-600 text-white rounded"
+          >
+            Apply Coupon
+          </button>
+          <button
+            onClick={() => saveCoupon(couponCode)}
+            className="mt-2 p-2 px-4 flex items-center justify-center space-x-2 transition-transform duration-500 hover:scale-110 hover:shadow-xl hover:shadow-indigo-500"
+          >
+            <span className="text-xl animate-pulse">🚀</span>
+          </button>
+        </div>
+      )}
+
       <div className="mt-4 text-right font-bold text-lg text-blue-700">
-        Total: ${total.toFixed(2)}
+        Total: ${discount > 0 ? discountedTotal.toFixed(2) : total.toFixed(2)}
       </div>
     </div>
   );

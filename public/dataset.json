@@ -1,6 +1,50 @@
 [
-  { "id": 1, "name": "Item A", "description": "Description A", "price": 100 },
-  { "id": 2, "name": "Item B", "description": "Description B", "price": 150 },
-  { "id": 3, "name": "Item C", "description": "Description C", "price": 200 },
-  { "id": 4, "name": "Item D", "description": "Description D", "price":200 }
+  {
+    "id": 1,
+    "name": "Ashab-e-Kahf",
+    "image": "https://i.ibb.co.com/mnL02Jj/Ashab-e-Kahf-2013.jpg",
+    "category": "Drama",
+    "description": "A drama based on the story of the Seven Sleepers of Ephesus.",
+    "price": 8.99
+  },
+  {
+    "id": 2,
+    "name": "Mera Saaein",
+    "image": "https://i.ibb.co.com/8gvHK428/Mera-Saaein.jpg",
+    "category": "Drama",
+    "description": "A series about the political and personal struggles of a man named Saaein.",
+    "price": 5.99
+  },
+  {
+    "id": 3,
+    "name": "The Message",
+    "image": "https://i.ibb.co.com/j96vQG26/The-Message.jpg",
+    "category": "Historical",
+    "description": "A historical film about the life of the Prophet Muhammad.",
+    "price": 12.99
+  },
+  {
+    "id": 4,
+    "name": "Diriliş: Ertuğrul",
+    "image": "https://i.ibb.co.com/Jj4gnGnB/Diril.jpg",
+    "category": "Historical Drama",
+    "description": "The story of Ertuğrul Bey and the founding of the Ottoman Empire.",
+    "price": 14.99
+  },
+  {
+    "id": 5,
+    "name": "Aşk-ı Memnu",
+    "image": "https://i.ibb.co.com/Zkz0QpK/A-k-n-yolculu-u-dizisi-trt.jpg",
+    "category": "Romance",
+    "description": "A romantic drama series based on a classic Turkish novel.",
+    "price": 7.99
+  },
+  {
+    "id": 6,
+    "name": "Omar",
+    "image": "https://i.ibb.co.com/ynkZwVzw/omar2012.png",
+    "category": "Historical",
+    "description": "The story of the life of Omar ibn Khattab, the second caliph of the Islamic Caliphate.",
+    "price": 10.99
+  }
 ]
