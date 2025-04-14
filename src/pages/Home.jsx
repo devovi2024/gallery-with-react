@@ -74,7 +74,11 @@ const Home = () => {
           Favorite Items
         </h1>
 
-        <div className="flex flex-col lg:flex-row gap-10">
+
+      </div>
+
+      <div>
+      <div className="flex flex-col sm:flex-col lg:flex-row gap-10">
           {/* Items Section */}
           <div className="w-full lg:w-2/3">
             <ItemCollection
@@ -104,7 +108,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-
       {/* Quiz Modal */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
         <QuizModalWrapper />

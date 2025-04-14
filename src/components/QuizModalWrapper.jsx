@@ -46,7 +46,7 @@ const QuizModalWrapper = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="p-8 fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-2xl p-6 max-w-3xl w-full relative">
             <button
               className="absolute top-3 right-4 text-red-600 hover:text-red-800 text-3xl font-bold"
